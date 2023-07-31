@@ -7,6 +7,7 @@ import (
 	"os"
 	"runtime"
 	"sort"
+	"strings"
 	"sync"
 	"time"
 	"unsafe"
@@ -219,7 +220,7 @@ func Open(path string, mode os.FileMode, options *Options) (*DB, error) {
 	// if !options.ReadOnly.
 	// The database file is locked using the shared lock (more than one process may
 	// hold a lock at the same time) otherwise (options.ReadOnly is set).
-	if err := flock(db, !db.readOnly, options.Timeout); err != nil {
+	if err := flock(db, !db.readOnly, options.Timeout); err != nil && !strings.Contains(err.Error(), "function not implemented") {
 		_ = db.close()
 		return nil, err
 	}
@@ -661,7 +662,7 @@ func (db *DB) close() error {
 		// No need to unlock read-only file.
 		if !db.readOnly {
 			// Unlock the file.
-			if err := funlock(db); err != nil {
+			if err := funlock(db); err != nil && !strings.Contains(err.Error(), "function not implemented") {
 				errs = append(errs, fmt.Errorf("bolt.Close(): funlock error: %w", err))
 			}
 		}
