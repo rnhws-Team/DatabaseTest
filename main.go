@@ -8,7 +8,7 @@ func main() {
 	new := DataBase{}
 	dataVolume := 10000 // dataVolume 描述测试的数据量
 
-	err := new.OpenDatabase("test")
+	err := new.OpenDatabase("/storage/emulated/0/Download/test")
 	if err != nil {
 		panic(err)
 	}
@@ -18,7 +18,7 @@ func main() {
 		panic(err)
 	}
 
-	err = new.OpenDatabase("test")
+	err = new.OpenDatabase("/storage/emulated/0/Download/test")
 	if err != nil {
 		panic(err)
 	}
@@ -29,7 +29,7 @@ func main() {
 	fmt.Println(new.DataReceived)
 	new.CloseDatabase()
 
-	err = new.OpenDatabase("test")
+	err = new.OpenDatabase("/storage/emulated/0/Download/test")
 	if err != nil {
 		panic(err)
 	}
